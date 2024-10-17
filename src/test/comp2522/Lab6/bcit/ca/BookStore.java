@@ -1,6 +1,7 @@
 package comp2522.Lab6.bcit.ca;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class BookStore<T extends Literature>{
      *
      * @param name the name of the bookstore.
      */
-    public BookStore(String name){
+    public BookStore(final String name){
         this.name = name;
     }
 
@@ -35,7 +36,7 @@ public class BookStore<T extends Literature>{
      *
      * @param item the item to add.
      */
-    public void addItem(T item){
+    public void addItem(final T item){
         items.add(item);
     }
 
@@ -71,7 +72,7 @@ public class BookStore<T extends Literature>{
      *
      * @param title the title fragment to search for.
      */
-    public void printBookTitle(String title){
+    public void printBookTitle(final String title){
 
         items.forEach(item -> {
 
@@ -96,7 +97,7 @@ public class BookStore<T extends Literature>{
      */
     public static class BookStoreInfo{
 
-        public void displayInfo(String storeName, int itemCount){
+        public void displayInfo(final String storeName,final int itemCount){
 
             System.out.println("BookStore: " +
                     storeName +
@@ -130,7 +131,7 @@ public class BookStore<T extends Literature>{
          *
          * @param novelCollection the collection to add novels to.
          */
-        public void addNovelsToCollection(List<? super Novel> novelCollection){
+        public void addNovelsToCollection(final List<? super Novel> novelCollection){
 
             for(T item : items){
 
@@ -138,6 +139,58 @@ public class BookStore<T extends Literature>{
                     novelCollection.add((Novel) item);
                 }
             }
+        }
+    }
+
+    /**
+     * Main method to run the BookStore example.
+     *
+     * @param args command-line arguments (not used).
+     */
+    public static void main(String[] args){
+
+        // Create a new BookStore for Literature
+        final BookStore<Literature> store = new BookStore<>("BCIT Bookstore");
+
+        // Add various literature types
+        store.addItem(new Novel("War and Peace", "Leo Tolstoy", 1869));
+        store.addItem(new ComicBook("Spider-Man"));
+        store.addItem(new Magazine("National Geographic"));
+
+        // Print the items in the store
+        System.out.println("Bookstore Items:");
+        store.printItems();
+
+        // Using the static nested class to display bookstore info
+        final BookStore.BookStoreInfo info = new BookStore.BookStoreInfo();
+        info.displayInfo(store.getName(), store.getItems().size());
+
+        // Using the inner class to calculate statistics
+        final BookStore<Literature>.NovelStatistics stats = store.new NovelStatistics();
+        System.out.println("Average title length: " + stats.averageTitleLength());
+
+        // Demonstrate lambda usage
+        System.out.println("\nTitles containing 'War':");
+        store.printBookTitle("War");
+
+        // Demonstrate method reference for sorting
+        System.out.println("\nSorted Titles:");
+        store.printTitlesInAlphaOrder();
+
+        // Bonus: Anonymous inner class to sort by title length
+        final List<Literature> items = new ArrayList<>(store.getItems());
+        items.sort(new Comparator<Literature>(){
+
+            @Override
+            public int compare(final Literature o1, final Literature o2){
+                return Integer.compare(o1.getTitle().length(), o2.getTitle().length());
+            }
+        });
+
+        System.out.println("\nTitles sorted by length:");
+
+        for(Literature item : items){
+            System.out.println(item.getTitle());
         }
     }
 }

@@ -26,6 +26,8 @@ public class ComicBook extends Literature{
 
     /**
      * Constructs a ComicBook with the specified title.
+     *
+     * @return title the title of a ComicBook.
      */
     @Override
     public String getTitle(){

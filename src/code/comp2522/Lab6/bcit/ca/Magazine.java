@@ -12,6 +12,7 @@ package comp2522.Lab6.bcit.ca;
  * @version 1.0
  */
 public class Magazine extends Literature{
+
     private final String title;
 
     /**

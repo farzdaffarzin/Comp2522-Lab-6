@@ -71,7 +71,7 @@ public class Novel extends Literature
      * @return a negative integer, zero, or a positive integer as this title is less than, equal to, or greater than the specified title.
      */
     @Override
-    public int compareTo(Novel that){
+    public int compareTo(final Novel that){
         return this.title.compareToIgnoreCase(that.title);
     }
 
@@ -82,6 +82,16 @@ public class Novel extends Literature
      */
     @Override
     public String toString(){
-        return "Title: " + this.title + " Author: " + this.authorName + " Year: " + this.yearPub;
+
+        final String bookInfo;
+
+        bookInfo = "Title: " +
+                this.title +
+                " Author: " +
+                this.authorName +
+                " Year: " +
+                this.yearPub;
+
+        return bookInfo;
     }
 }
