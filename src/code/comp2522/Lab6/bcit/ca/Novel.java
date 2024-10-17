@@ -1,6 +1,7 @@
 package comp2522.Lab6.bcit.ca;
 
-public class Novel implements Comparable<Novel> {
+public class Novel extends Literature
+        implements Comparable<Novel> {
     
     private final String title;
     private final String authorName;
@@ -15,6 +16,7 @@ public class Novel implements Comparable<Novel> {
         this.yearPub = yearPub;
     }
 
+    @Override
     public String getTitle(){
         return title;
     }
@@ -36,5 +38,7 @@ public class Novel implements Comparable<Novel> {
     public String toString() {
         return "Title: " + this.title + " Author: " + this.authorName + " Year: " + this.yearPub;
     }
-
 }
+
+
+
