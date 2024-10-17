@@ -8,19 +8,18 @@ import java.util.List;
  * BookStore is a generic class that represents a collection of literary items.
  * It can store any type of Literature and provides methods to manipulate and display the stored items.
  *
+ * @param <T> the type of Literature items this BookStore will store.
  * @author Dalraj Bains
  * @author Farzad Farzin
  * @author Anil Bronson
  * @author Arsh Mann
- *
  * @version 1.0
- *
- * @param <T> the type of Literature items this BookStore will store.
  */
 public class BookStore<T extends Literature>{
 
     private final String name;
     private final List<T> items = new ArrayList<>();
+    private final int INITIALIZE_LENGTH = 0;
 
     /**
      * Constructs a BookStore with the specified name.
@@ -44,7 +43,8 @@ public class BookStore<T extends Literature>{
      * Prints the titles of all items in the bookstore.
      */
     public void printItems(){
-        for(T item : items){
+
+        for(final T item : items){
             System.out.println(item.getTitle());
         }
     }
@@ -97,7 +97,8 @@ public class BookStore<T extends Literature>{
      */
     public static class BookStoreInfo{
 
-        public void displayInfo(final String storeName,final int itemCount){
+        public void displayInfo(final String storeName,
+                                final int itemCount){
 
             System.out.println("BookStore: " +
                     storeName +
@@ -118,8 +119,10 @@ public class BookStore<T extends Literature>{
          */
         public double averageTitleLength(){
 
-            int totalLength = 0;
-            for(T item : items){
+            int totalLength;
+            totalLength = INITIALIZE_LENGTH;
+
+            for(final T item : items){
 
                 totalLength += item.getTitle().length();
             }
@@ -133,7 +136,7 @@ public class BookStore<T extends Literature>{
          */
         public void addNovelsToCollection(final List<? super Novel> novelCollection){
 
-            for(T item : items){
+            for(final T item : items){
 
                 if(item instanceof Novel){
                     novelCollection.add((Novel) item);
@@ -149,8 +152,9 @@ public class BookStore<T extends Literature>{
      */
     public static void main(String[] args){
 
-        // Create a new BookStore for Literature
-        final BookStore<Literature> store = new BookStore<>("BCIT Bookstore");
+        final BookStore<Literature> store;
+
+        store = new BookStore<>("BCIT Bookstore");
 
         // Add various literature types
         store.addItem(new Novel("War and Peace", "Leo Tolstoy", 1869));
@@ -162,11 +166,15 @@ public class BookStore<T extends Literature>{
         store.printItems();
 
         // Using the static nested class to display bookstore info
-        final BookStore.BookStoreInfo info = new BookStore.BookStoreInfo();
+        final BookStore.BookStoreInfo info;
+        info = new BookStore.BookStoreInfo();
+
         info.displayInfo(store.getName(), store.getItems().size());
 
         // Using the inner class to calculate statistics
-        final BookStore<Literature>.NovelStatistics stats = store.new NovelStatistics();
+        final BookStore<Literature>.NovelStatistics stats;
+        stats = store.new NovelStatistics();
+
         System.out.println("Average title length: " + stats.averageTitleLength());
 
         // Demonstrate lambda usage
@@ -178,11 +186,15 @@ public class BookStore<T extends Literature>{
         store.printTitlesInAlphaOrder();
 
         // Bonus: Anonymous inner class to sort by title length
-        final List<Literature> items = new ArrayList<>(store.getItems());
+        final List<Literature> items;
+        items = new ArrayList<>(store.getItems());
+
         items.sort(new Comparator<Literature>(){
 
             @Override
-            public int compare(final Literature o1, final Literature o2){
+            public int compare(final Literature o1,
+                               final Literature o2){
+
                 return Integer.compare(o1.getTitle().length(), o2.getTitle().length());
             }
         });
